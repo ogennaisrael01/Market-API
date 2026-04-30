@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>OTP Verification</title>
+  <!--[if mso]>
+  <noscript>
+    <xml><o:OfficeDocumentSettings><o:PixelsPerInch>96</o:PixelsPerInch></o:OfficeDocumentSettings></xml>
+  </noscript>
+  <![endif]-->
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background-color: #0a0a0f;
+      font-family: 'DM Sans', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 16px;
+    }
+
+    .email-root {
+      width: 100%;
+      max-width: 560px;
+      margin: 0 auto;
+    }
+
+    /* ── Brand Bar ── */
+    .brand-bar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 32px;
+    }
+    .brand-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #c8a96e 0%, #f0d9a8 50%, #c8a96e 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .brand-icon svg { display: block; }
+    .brand-name {
+      font-family: 'DM Serif Display', serif;
+      font-size: 20px;
+      letter-spacing: 0.04em;
+      color: #f0d9a8;
+    }
+
+    /* ── Card ── */
+    .card {
+      background: linear-gradient(160deg, #13131d 0%, #0e0e18 100%);
+      border: 1px solid rgba(200, 169, 110, 0.18);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow:
+        0 0 0 1px rgba(255,255,255,0.03),
+        0 32px 80px rgba(0,0,0,0.6),
+        0 0 120px rgba(200, 169, 110, 0.04);
+    }
+
+    /* ── Header ── */
+    .card-header {
+      position: relative;
+      padding: 52px 48px 44px;
+      border-bottom: 1px solid rgba(200, 169, 110, 0.10);
+      overflow: hidden;
+    }
+    .card-header::before {
+      content: '';
+      position: absolute;
+      top: -60px; right: -60px;
+      width: 220px; height: 220px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(200,169,110,0.10) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .card-header::after {
+      content: '';
+      position: absolute;
+      bottom: -30px; left: -30px;
+      width: 140px; height: 140px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(200,169,110,0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .shield-wrap {
+      width: 64px; height: 64px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, rgba(200,169,110,0.15), rgba(200,169,110,0.05));
+      border: 1px solid rgba(200,169,110,0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 24px;
+    }
+
+    .header-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #c8a96e;
+      margin-bottom: 10px;
+    }
+    .header-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 30px;
+      line-height: 1.2;
+      color: #f5f0e8;
+      margin-bottom: 14px;
+    }
+    .header-sub {
+      font-size: 14px;
+      line-height: 1.6;
+      color: #7a7a9a;
+      max-width: 360px;
+    }
+    .header-sub strong {
+      color: #b0a8c0;
+      font-weight: 500;
+    }
+
+    /* ── Body ── */
+    .card-body {
+      padding: 44px 48px;
+    }
+
+    .greeting {
+      font-size: 15px;
+      color: #7a7a9a;
+      margin-bottom: 28px;
+      line-height: 1.6;
+    }
+    .greeting strong {
+      color: #c8c0d8;
+      font-weight: 500;
+    }
+
+    /* ── OTP Block ── */
+    .otp-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #5a5a7a;
+      margin-bottom: 12px;
+    }
+
+    .otp-block {
+      background: linear-gradient(135deg, rgba(200,169,110,0.07), rgba(200,169,110,0.02));
+      border: 1px solid rgba(200,169,110,0.20);
+      border-radius: 14px;
+      padding: 28px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 28px;
+      position: relative;
+      overflow: hidden;
+    }
+    .otp-block::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, transparent 0%, rgba(200,169,110,0.03) 50%, transparent 100%);
+    }
+
+    .otp-digits {
+      font-family: 'DM Serif Display', serif;
+      font-size: 42px;
+      letter-spacing: 0.22em;
+      color: #f0d9a8;
+      line-height: 1;
+      text-shadow: 0 0 40px rgba(200,169,110,0.3);
+    }
+
+    .otp-copy-hint {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 4px;
+      flex-shrink: 0;
+    }
+    .otp-copy-hint span {
+      font-size: 11px;
+      color: #4a4a6a;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+    }
+    .otp-copy-hint .dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: #c8a96e;
+      opacity: 0.5;
+      align-self: flex-end;
+    }
+
+    /* ── Timer Row ── */
+    .timer-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 32px;
+    }
+    .timer-icon {
+      width: 16px; height: 16px;
+      color: #c8a96e;
+      opacity: 0.7;
+      flex-shrink: 0;
+    }
+    .timer-text {
+      font-size: 13px;
+      color: #5a5a7a;
+    }
+    .timer-text strong {
+      color: #c8a96e;
+      font-weight: 600;
+    }
+
+    /* ── Divider ── */
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(200,169,110,0.12), transparent);
+      margin: 32px 0;
+    }
+
+    /* ── Security Note ── */
+    .security-note {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.05);
+      border-left: 3px solid rgba(200,169,110,0.4);
+      border-radius: 8px;
+      padding: 16px 18px;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      margin-bottom: 32px;
+    }
+    .security-note svg { flex-shrink: 0; margin-top: 1px; }
+    .security-note p {
+      font-size: 13px;
+      color: #5a5a7a;
+      line-height: 1.55;
+    }
+    .security-note p strong {
+      color: #8a8aaa;
+      font-weight: 500;
+    }
+
+    /* ── Footer ── */
+    .card-footer {
+      padding: 28px 48px;
+      border-top: 1px solid rgba(255,255,255,0.04);
+      background: rgba(0,0,0,0.2);
+    }
+    .footer-text {
+      font-size: 12px;
+      color: #3a3a5a;
+      line-height: 1.6;
+      text-align: center;
+    }
+    .footer-text a {
+      color: #6a6a8a;
+      text-decoration: none;
+    }
+
+    /* ── Bottom Caption ── */
+    .bottom-caption {
+      text-align: center;
+      margin-top: 24px;
+      font-size: 12px;
+      color: #2e2e48;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 480px) {
+      .card-header, .card-body { padding: 36px 28px; }
+      .card-footer { padding: 24px 28px; }
+      .header-title { font-size: 24px; }
+      .otp-digits { font-size: 32px; letter-spacing: 0.16em; }
+      .otp-block { padding: 22px 20px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="email-root">
+
+    <!-- Brand Bar -->
+    <div class="brand-bar">
+      <div class="brand-icon">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+          <path d="M9 1.5L15.5 5v8L9 16.5 2.5 13V5L9 1.5z" stroke="#0a0a0f" stroke-width="1.5" fill="rgba(10,10,15,0.3)"/>
+          <path d="M6 9l2 2 4-4" stroke="#0a0a0f" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <span class="brand-name">{{appName}}</span>
+    </div>
+
+    <div class="card">
+
+      <!-- Header -->
+      <div class="card-header">
+        <div class="shield-wrap">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+            <path d="M14 3L23 7v7c0 5.25-3.85 10.15-9 11.25C8.85 24.15 5 19.25 5 14V7l9-4z"
+              stroke="#c8a96e" stroke-width="1.5" fill="rgba(200,169,110,0.08)"/>
+            <path d="M10 14l3 3 5-6" stroke="#c8a96e" stroke-width="1.5"
+              stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="header-label">Security Verification</div>
+        <h1 class="header-title">Your one-time<br/>access code</h1>
+        <p class="header-sub">
+          You've requested a verification code for your <strong>{{appName}}</strong> account.
+          Use the code below to complete your sign-in.
+        </p>
+      </div>
+
+      <!-- Body -->
+      <div class="card-body">
+
+        <p class="greeting">
+          Hello, <strong>{{toName}}</strong> — here is your verification code:
+        </p>
+
+        <div class="otp-label">One-Time Password</div>
+
+        <div class="otp-block">
+          <span class="otp-digits">{{code}}</span>
+          <div class="otp-copy-hint">
+            <div class="dot"></div>
+            <span>Single</span>
+            <span>use only</span>
+          </div>
+        </div>
+
+        <div class="timer-row">
+          <svg class="timer-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+            <circle cx="8" cy="8" r="6.5"/>
+            <path d="M8 4.5V8l2.5 2" stroke-linecap="round"/>
+          </svg>
+          <p class="timer-text">This code expires in <strong>{{ expiry }} minutes</strong></p>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="security-note">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <circle cx="8" cy="8" r="7" stroke="#c8a96e" stroke-width="1.2" opacity="0.5"/>
+            <path d="M8 5v3.5" stroke="#c8a96e" stroke-width="1.2" stroke-linecap="round" opacity="0.5"/>
+            <circle cx="8" cy="11.5" r="0.75" fill="#c8a96e" opacity="0.5"/>
+          </svg>
+          <p>
+            <strong>Didn't request this?</strong> If you did not initiate this request, please ignore this email.
+            Your account remains secure and no action is required on your part.
+          </p>
+        </div>
+
+      </div>
+
+      <!-- Footer -->
+      <div class="card-footer">
+        <p class="footer-text">
+          This is an automated message from <strong style="color:#5a5a7a;">{{appName}}</strong>.
+          Please do not reply to this email. &nbsp;·&nbsp;
+          <a href="#">Privacy Policy</a> &nbsp;·&nbsp;
+          <a href="#">Help Center</a>
+        </p>
+      </div>
+
+    </div>
+
+    <p class="bottom-caption">© 2025 {{appName}}. All rights reserved.</p>
+
+  </div>
+</body>
+</html>

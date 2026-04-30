@@ -1,4 +1,6 @@
-backend/node_modules/
-backend/dist/   
 
-**node_modules**
+node_modules
+logs
+storage
+
+backend/.env
