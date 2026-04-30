@@ -1,5 +1,5 @@
 import pkg from "jsonwebtoken";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import { logger } from "../../common/utils/loggers.js";
 import { createHash } from "crypto";
  
