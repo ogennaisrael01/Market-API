@@ -24,7 +24,6 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "node swagger.js",
     "start": "node index.js",
     "dev": "nodemon index.js && echo 'Done'"
   },
