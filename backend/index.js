@@ -35,9 +35,10 @@ import fs from 'fs';
 const app = express();
 
 const startServer = async () => {
-    const PORT = "3000"
-    const HOSTNAME = "127.0.0.1"
+    const PORT = process.env.PORT || "3000"
+    const HOSTNAME = process.env.HOSTNAME || "127.0.0.1"
     const projectName = "Market-API"
+    
     try{
         await initDB(sequelize)
         const swaggerDocument = JSON.parse(fs.readFileSync('./swagger-out.json', 'utf-8'));
