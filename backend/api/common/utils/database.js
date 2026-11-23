@@ -18,5 +18,11 @@ export const sequelize = new Sequelize( postgresDatabase, postgresUsername, post
     "dialect": "postgres",
     // "storage": "./storage/market-place.db"
     "host": postgresHost,
-    'logging': false
+    'logging': false,
+    "dialectOptions": {
+        ssl: {
+            require: true,
+            rejectUnauthorized: false
+        }
+    }
 });

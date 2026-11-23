@@ -16,7 +16,7 @@ import { ValidationError } from "ajv";
 export const register = async (req, res) => {
 
     const request_data = req.body
-        const isValid = validateUserReg(request_data)
+    const isValid = validateUserReg(request_data)
     if (!isValid){
         return badRequest(res, {status: false, details: validateUserReg.errors})
     }
